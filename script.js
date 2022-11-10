@@ -67,3 +67,57 @@ function renderQuestion() {
     
 }
 
+function answerCorrect(correct) {
+    if (questions[index].correct === questions[index].answers[correct]) {
+        initialScore = initialScore + 10;
+        correctAnswer.textContent = "Correct!"
+    }
+    //This will show if you chose the correct answer
+    else {
+        timeLeft = timeLeft - 10;
+        timeLeft.textContent = timeLeft;
+        correctAnswer.textContent = "Incorrect!"
+    }
+    //This will show if the user picks the incorrect answer, and will subtract 10 seconds from the total current time
+
+    index = index + 1
+    // This line will make user go to the next question
+
+    if (index < questions.length) {
+        renderQuestion();
+    }
+    else {
+        endQuiz();
+    }
+    //This if/else statement is what will be used to see if there are any more questions, if there is not it will end the quiz
+}
+
+function option1() {
+    answerCorrect(0);
+}
+function option2() {
+    answerCorrect(1);
+}
+function option3() {
+    answerCorrect(2);
+}
+function option4() {
+    answerCorrect(3);
+}
+// This will allow the correct answer to be shown/picked on each question
+
+function timer(){
+    var timeInterval = setInterval(function () {
+        if (timeLeft > 1) {
+            timerEl.textContent = 'Time: ' + timeLeft;
+            timeLeft--;
+            // If there is more than 1 second left this is what will show and shows the time left
+
+        } else {
+            timerEl.textContent = '';
+            clearInterval(timeInterval);
+        }
+        // This will show when there is leff than a second left
+    }, 1000)
+    // This timer function is for 1000 intervals
+}
