@@ -1,10 +1,10 @@
 var timerEl = document.getElementById('timer');
 
-var startEl = document.getElementById('start-quiz')
-var quizEl = document.getElementById('quiz-container')
-var questionContainerEl = document.getElementById('question-container')
-var answerButtonsEl = document.getElementById('answer-buttons')
-var questionDisplay = document.getElementById('question-display')
+var startEl = document.getElementById('start-quiz');
+var quizEl = document.getElementById('quiz-container');
+var questionContainerEl = document.getElementById('question-container');
+var answerButtonsEl = document.getElementById('answer-buttons');
+var questionDisplay = document.getElementById('question-display');
 
 var button1 = document.getElementById('btn-1');
 var button2 = document.getElementById('btn-2');
@@ -121,3 +121,64 @@ function timer(){
     }, 1000)
     // This timer function is for 1000 intervals
 }
+
+function endQuiz() {
+    quizEl.classList.add('hide');
+    answerButtonsEl.classList.add('hide')
+    scoresEl.classList.remove('hide');
+    // This is what will end the quiz
+
+    var finalScore = document.createElement("h1");
+    finalScore.textContent = "Your final score is: " + initialScore;
+    var saveInfo = document.createElement("h1");
+    saveInfo.textContent = "Enter your initials: "
+    scoresEl.appendChild(saveInfo);
+    scoresEl.appendChild(finalScore);
+    //This is where you will get the final score at the end
+}
+
+function storeScores() {
+    var savedHighScores = localStorage.getItem("High Scores");
+
+    savedHighScores = JSON.parse(savedHighScores)
+
+    var userScore = {
+        Name: enterName.value,
+        Score: initialScore
+    };
+
+    savedHighScores.push(userScore);
+
+    var scoresCombined = JSON.stringify (savedHighScores);
+    window.localStorage.setItem("High Scores", scoresCombined);
+
+    highScores();
+};
+// This is where we will capture the high scores 
+
+function highScores() {
+    highScoresListEl.classList.remove('hide');
+    quizEl.classList.add('hide');
+    //This one section will make sure that the high scores are hidden with this command on HTML
+
+    var storedScores = localStorage.getItem("High Scores");
+    var storedScores = JSON.parse(storedScores);
+
+    for (i=0; i<storedScores.length; i++) {
+        var initialHighScore = document.createElement("h2");
+        initialHighScore.textContent = "Name: " + storedScores[i].Name + "with" + storedScores[i].Score + "points";
+        highScoresListEl.appendChild(initialHighScore);
+    }
+
+}
+
+startEl.addEventListener("click", startQuiz);
+
+button1.addEventListener("click", option1);
+button2.addEventListener("click", option2);
+button3.addEventListener("click", option3);
+button4.addEventListener("click", option4);
+
+submitScoresEl.addEventListener("click", storeScores);
+highScoresEl.addEventListener("click", highScores);
+
