@@ -1,0 +1,30 @@
+{
+    box-sizing: border-box;
+}
+
+/*Variable colors for entire page*/
+:root {
+    --primary: hsl(0, 0%, 0%);
+    --secondary: #3f3f3f;
+    --tertiary: rgb(253,253,253);
+    --lighter: rgb(179,65,255);
+    font-size: 63%;
+}
+body {
+    background: var(--tertiary);
+    color: var(grey);
+    display: flex;
+    flex-direction: column;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+header {
+    text-align: center;
+    padding: 30px 35px;
+    border-bottom: 5px solid var(--primary);
+}
+
+header p {
+    margin: 3rem 0 3rem;
+    font-size: 2rem;
+}
