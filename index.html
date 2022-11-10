@@ -17,4 +17,35 @@
         <p>Try to answer the code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
             <button class="btn" id="start-quiz" type="submit">Start Quiz</button>
     </header>
+
+<main class="quiz" id="quiz-container" class="hide">
+    <h1 id="question-display"></h1>
+    <div id="question-container" class="hide"></div>
+    <div id="answer-buttons" class="hide">
+        <button class="btn" id="btn-1" type="submit">A1</button>
+        <button class="btn" id="btn-2" type="submit">A2</button>
+        <button class="btn" id="btn-3" type="submit">A3</button>
+        <button class="btn" id="btn-4" type="submit">A4</button>
+        <h2 id = "correctAnswer"></h2>
+    
+    </div>
+    <h2 id = "correctAnswer"></h2>
+
+</main>
+
+<div class="hide" id="scores">
+    <h1 id="totalScore"></h1>
+    <form>
+        <input id="enterName" type="text">
+        <button type="submit" class="btn" id="submitScores">Sumbit Initials!</button>
+    </form>
+</div>
+
+<div class="hide" id="highScoresList">
+    <h1>Below is a list of the high scores!</h1>
+</div>
+<script src="Coding-Quiz/script.js"></script>
+
+
 </body>
+</html>
