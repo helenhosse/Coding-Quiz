@@ -30,12 +30,6 @@ I have provided 2 links at the end of this page that should be able to work on a
 
 ## Screenshot of Mock-Up Site
 
-I have attached a photo of what you can expect the website to look like below.
-
-<img src="C:\Users\Hhosse\desktop\bootcamp\password-generator\password-changes1.PNG" alt=shows the changes made to the top part of the JS sheet.>
-<img src="password-generator\password-changes2.PNG" alt=shows the changes made to the middle section of JS sheet.>
-<img src="password-generator\password-changes3.PNG" alt=shows the final part of the changes made to the JS sheet.>
-
 ## The Result
 
 I have used HTML, CSS, and JavaScript in order to make this 5 multiple-choice question quiz that is timed and shows user's high scores.

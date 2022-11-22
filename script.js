@@ -1,71 +1,94 @@
-var timerEl = document.getElementById('timer');
+var timerEl = document.getElementById("timer");
 
-var startEl = document.getElementById('start-quiz');
-var quizEl = document.getElementById('quiz-container');
-var questionContainerEl = document.getElementById('question-container');
-var answerButtonsEl = document.getElementById('answer-buttons');
-var questionDisplay = document.getElementById('question-display');
-
-var button1 = document.getElementById('btn-1');
-var button2 = document.getElementById('btn-2');
-var button3 = document.getElementById('btn-3');
-var button4 = document.getElementById('btn-4');
-var correctAnswer = document.getElementById('correctAnswer');
+var startEl = document.getElementById("start");
+var quizEl = document.getElementById("quiz-container");
+var questionContainerEl = document.getElementById("question-container");
+var answerButtonsEl = document.getElementById("answer-buttons");
+var questionDisplay = document.getElementById("question-display");
 
 var index = 0;
 var initialScore = 0;
-var timeLeft = 75;
+var secondsLeft = 75;
+var rightAnswer = "";
+var userAnswer = "";
+var questionNumber = "";
+var answerNumber = "";
+var secondsLeft = "";
+var interval;
+var highScores = 0;
 
-var totalScore = document.getElementById('totalScore');
-var highScoresEl = document.getElementById('highScores');
-var scoresEl = document.getElementById('scores');
-var submitScores = document.getElementById('submitScores');
-var highScoresListEl = document.getElementById('highScoresList');
+var timeEl = document.querySelector("timer")
+
+
+var totalScore = document.getElementById("totalScore");
+var highScoresEl = document.getElementById("highScores");
+var scoresEl = document.getElementById("scores");
+var submitScores = document.getElementById("submitScores");
+var highScoresListEl = document.getElementById("highScoresList");
 
 var questions = [
     {
-        question: "Commonly used data types DO NOT include which of the following:"
-        answers: ["1. Strings", "2. Booleans", "3. Alerts", "4. Numbers"],
-        correct: "3. Alerts"
+        question: "Commonly used data types DO NOT include which of the following:",
+        rightAnswer: "3. Alerts",
+        options: ["1. Strings", "2. Booleans", "3. Alerts", "4. Numbers"],
     },
     {
-        question: "String values must be enclosed within ______ when being assigned to variables."
-        answers: ["1. Commas", "2. Curly Brackets", "3. Quotes", "4. Parenthesis"],
-        correct: "3. Quotes"
+        question: "String values must be enclosed within ______ when being assigned to variables.",
+        rightAnswer: "3. Quotes",
+        options: ["1. Commas", "2. Curly Brackets", "3. Quotes", "4. Parenthesis"],
     },
     {
-        question: "Arrays in JavaScript can be used to store _______."
-        answers: ["1. Numbers and Strings", "2. Other Arrays", "3. Booleans", "4. All of the Above"],
-        correct: "4. All of the Above"
+        question: "Arrays in JavaScript can be used to store _______.",
+        rightAnswer: "4. All of the Above",
+        options: ["1. Numbers and Strings", "2. Other Arrays", "3. Booleans", "4. All of the Above"],
     },
     {
-        question: "The condition in an if/else statement is enclosed with ________."
-        answers: ["1. Quotes", "2. Curly Brackets", "3. Parentesis", "4. Square Brackets"],
-        correct: "2. Curly Brackets"
+        question: "The condition in an if/else statement is enclosed with ________.",
+        rightAnswer: "2. Curly Brackets",
+        options: ["1. Quotes", "2. Curly Brackets", "3. Parentesis", "4. Square Brackets"],
     },
     {
-        question: "A very useful tool used during development and debugging for printing content to the debugger is:"
-        answers: ["1. JavaScript", "2. Terminal/Bash", "3. For Loops", "4. Console.log"],
-        correct: "4. Console.log"
+        question: "A very useful tool used during development and debugging for printing content to the debugger is:",
+        rightAnswer: "4. Console.log",
+        options: ["1. JavaScript", "2. Terminal/Bash", "3. For Loops", "4. Console.log"],
     }
 ]
 
-function renderQuestion() {
-    //This function is what will display our question
-    var questionObject = questions[index]
-    // var h1El = document.createElement("h1");
-    // h1El.textContent = questionObject.question;
-    // questionContainerEl.appendChild(h1El);
+var timeEl = document.querySelector("timer")
 
-    questionDisplay.textContent = questionObject.question;
-    
-    button1.textContent = questionObject.answers[0];
-    button1.textContent = questionObject.answers[1];
-    button1.textContent = questionObject.answers[2];
-    button1.textContent = questionObject.answers[3];
+function startGame() {
+    startTime ();
+    document.getElementById ("start").addEventListener("click", startGame)
+}
+
+
+
+function initializeQuiz() {
+    var initialize = document.getElementById("start");
+}
 // This is where we are able to add the text above into the questions. I kept forgetting to start with 0, so this took longer for me than it should have.
     
+
+var answerButton1 = document.getElementById('btn-1');
+answerButton1.addEventListener("click", nextQuestion);
+
+var answerButton2 = document.getElementById('btn-2');
+answerButton2.addEventListener("click", nextQuestion);
+
+var answerButton3 = document.getElementById('btn-3');
+answerButton3.addEventListener("click", nextQuestion);
+
+var answerButton4 = document.getElementById('btn-4');
+answerButton4.addEventListener("click", nextQuestion);
+
+var correctAnswer = document.getElementById('correctAnswer');
+
+function nextQuestion() {
+    questionNumber++;
+    questionDisplay (question, questionNumber);
 }
+
+
 
 function answerCorrect(correct) {
     if (questions[index].correct === questions[index].answers[correct]) {
@@ -74,8 +97,8 @@ function answerCorrect(correct) {
     }
     //This will show if you chose the correct answer
     else {
-        timeLeft = timeLeft - 10;
-        timeLeft.textContent = timeLeft;
+        secondsLeft = secondsLeft - 10;
+        secondsLeft.textContent = secondsLeft;
         correctAnswer.textContent = "Incorrect!"
     }
     //This will show if the user picks the incorrect answer, and will subtract 10 seconds from the total current time
@@ -92,32 +115,22 @@ function answerCorrect(correct) {
     //This if/else statement is what will be used to see if there are any more questions, if there is not it will end the quiz
 }
 
-function option1() {
-    answerCorrect(0);
-}
-function option2() {
-    answerCorrect(1);
-}
-function option3() {
-    answerCorrect(2);
-}
-function option4() {
-    answerCorrect(3);
-}
+var ansButtonsEl
 // This will allow the correct answer to be shown/picked on each question
 
 function timer(){
-    var timeInterval = setInterval(function () {
-        if (timeLeft > 1) {
-            timerEl.textContent = 'Time: ' + timeLeft;
-            timeLeft--;
-            // If there is more than 1 second left this is what will show and shows the time left
+    var interval = setInterval(function () {
+        if (secondsLeft === 0) {
+            clearInterval(interval);
+            alert("Game-Over"); 
+            // If there isno time left, this will show that the game has ended
 
         } else {
-            timerEl.textContent = '';
-            clearInterval(timeInterval);
+            secondsLeft --;
+            timeEl.textContent = secondsLeft;
         }
-        // This will show when there is leff than a second left
+        // This will show how many seconds are left if there are any
+
     }, 1000)
     // This timer function is for 1000 intervals
 }
@@ -171,9 +184,6 @@ function highScores() {
     }
 
 }
-
-startEl.addEventListener("click", startQuiz);
-
 button1.addEventListener("click", option1);
 button2.addEventListener("click", option2);
 button3.addEventListener("click", option3);
@@ -181,4 +191,3 @@ button4.addEventListener("click", option4);
 
 submitScoresEl.addEventListener("click", storeScores);
 highScoresEl.addEventListener("click", highScores);
-
