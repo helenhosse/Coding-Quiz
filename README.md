@@ -36,9 +36,9 @@ I have used HTML, CSS, and JavaScript in order to make this 5 multiple-choice qu
 
 ## Links for Submission
 
-Deployed website link: https://helenhosse.github.io/password-generator/
+Deployed website link: https://helenhosse.github.io/Coding-Quiz/
 
-GitHub repository link: https://github.com/helenhosse/password-generator
+GitHub repository link: https://github.com/helenhosse/Coding-Quiz.git
 
 ## Credit
 
