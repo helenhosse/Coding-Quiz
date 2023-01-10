@@ -1,30 +1,28 @@
-var timerEl = document.getElementById("timer");
+const startButton = document.getElementById('start-btn')
 
-var startEl = document.getElementById("start");
-var quizEl = document.getElementById("quiz-container");
-var questionContainerEl = document.getElementById("question-container");
-var answerButtonsEl = document.getElementById("answer-buttons");
-var questionDisplay = document.getElementById("question-display");
+const nextButton = document.getElementById('next-btn')
 
-var index = 0;
-var initialScore = 0;
-var secondsLeft = 75;
-var rightAnswer = "";
-var userAnswer = "";
-var questionNumber = "";
-var answerNumber = "";
-var secondsLeft = "";
-var interval;
-var highScores = 0;
+const questionContainerElement = document.getElementById('question-card')
 
-var timeEl = document.querySelector("timer")
+const questionElement = document.getElementById('question')
 
+const answerButtonsElement = document.getElementById('answer-buttons')
 
-var totalScore = document.getElementById("totalScore");
-var highScoresEl = document.getElementById("highScores");
-var scoresEl = document.getElementById("scores");
-var submitScores = document.getElementById("submitScores");
-var highScoresListEl = document.getElementById("highScoresList");
+const timerElement = document.getElementById('timer')
+
+const nameEntryElement = document.getElementById('entry-card')
+
+const scoreCardElement = document.getElementById('score')
+
+const startCardElement = document.getElementById('start-card')
+
+const userNameSpan = document.getElementById('username')
+
+const userScoreSpan = document.getElementById('highscore')
+
+var submitButton = document.querySelector('#name-submit');
+
+startButton.addEventListener('click', timedLogic)
 
 var questions = [
     {
@@ -54,140 +52,126 @@ var questions = [
     }
 ]
 
-var timeEl = document.querySelector("timer")
+function timedLogic() {
 
-function startGame() {
-    startTime ();
-    document.getElementById ("start").addEventListener("click", startGame)
-}
+    let globalScore = 75
 
-
-
-function initializeQuiz() {
-    var initialize = document.getElementById("start");
-}
-// This is where we are able to add the text above into the questions. I kept forgetting to start with 0, so this took longer for me than it should have.
-    
-
-var answerButton1 = document.getElementById('btn-1');
-answerButton1.addEventListener("click", nextQuestion);
-
-var answerButton2 = document.getElementById('btn-2');
-answerButton2.addEventListener("click", nextQuestion);
-
-var answerButton3 = document.getElementById('btn-3');
-answerButton3.addEventListener("click", nextQuestion);
-
-var answerButton4 = document.getElementById('btn-4');
-answerButton4.addEventListener("click", nextQuestion);
-
-var correctAnswer = document.getElementById('correctAnswer');
-
-function nextQuestion() {
-    questionNumber++;
-    questionDisplay (question, questionNumber);
-}
-
-
-
-function answerCorrect(correct) {
-    if (questions[index].correct === questions[index].answers[correct]) {
-        initialScore = initialScore + 10;
-        correctAnswer.textContent = "Correct!"
+    if (globalScore === 0) {
+        clearInterval(globalTimer)
+        showScoreCard()
     }
-    //This will show if you chose the correct answer
-    else {
-        secondsLeft = secondsLeft - 10;
-        secondsLeft.textContent = secondsLeft;
-        correctAnswer.textContent = "Incorrect!"
+
+    let shuffledQuestions, currentQuestionIndex
+
+    startGame()
+
+    nextButton.addEventListener('click', () => {
+        currentQuestionIndex++
+        setNextQuestion()
+    })
+
+    function startGame() {
+        startButton.classList.add('hide')
+        shuffledQuestions = questions.sort(() => Math.random() - .5)
+        currentQuestionIndex = 0
+        questionContainerElement.classList.remove('hide')
+        setNextQuestion()
     }
-    //This will show if the user picks the incorrect answer, and will subtract 10 seconds from the total current time
 
-    index = index + 1
-    // This line will make user go to the next question
-
-    if (index < questions.length) {
-        renderQuestion();
-    }
-    else {
-        endQuiz();
-    }
-    //This if/else statement is what will be used to see if there are any more questions, if there is not it will end the quiz
-}
-
-var ansButtonsEl
-// This will allow the correct answer to be shown/picked on each question
-
-function timer(){
-    var interval = setInterval(function () {
-        if (secondsLeft === 0) {
-            clearInterval(interval);
-            alert("Game-Over"); 
-            // If there isno time left, this will show that the game has ended
-
+    var globalTimer = setInterval(function () {
+        if (globalScore > 0) {
+            globalScore--
+            timerElement.innerText = globalScore
         } else {
-            secondsLeft --;
-            timeEl.textContent = secondsLeft;
+            clearInterval(globalTimer)
+            // show score card and hide all other containers if time runs out
+            showScoreCard()
         }
-        // This will show how many seconds are left if there are any
-
     }, 1000)
-    // This timer function is for 1000 intervals
-}
 
-function endQuiz() {
-    quizEl.classList.add('hide');
-    answerButtonsEl.classList.add('hide')
-    scoresEl.classList.remove('hide');
-    // This is what will end the quiz
+    function setNextQuestion() {
+        clearQuestionContainer()
+        showQuestion(shuffledQuestions[currentQuestionIndex])
+    }
 
-    var finalScore = document.createElement("h1");
-    finalScore.textContent = "Your final score is: " + initialScore;
-    var saveInfo = document.createElement("h1");
-    saveInfo.textContent = "Enter your initials: "
-    scoresEl.appendChild(saveInfo);
-    scoresEl.appendChild(finalScore);
-    //This is where you will get the final score at the end
-}
+    function showQuestion(question) {
+        questionElement.innerText = question.question
+        question.answers.forEach(answer => {
+            const button = document.createElement('button')
+            button.setAttribute('id', 'btn')
+            button.innerText = answer.text
+            button.classList.add('btn', 'btn-primary', 'btn-lg', 'btn-block')
+            if (answer.correct) {
+                button.dataset.correct = answer.correct
+            }
+            button.addEventListener('click', selectAnswer)
+            button.addEventListener('click', answerCheck)
+            answerButtonsElement.appendChild(button)
+        })
+    }
 
-function storeScores() {
-    var savedHighScores = localStorage.getItem("High Scores");
+ 
 
-    savedHighScores = JSON.parse(savedHighScores)
+    function setStatusClass(element, correct) {
+        clearStatusClass(element)
+        if (correct) {
+            //correct color
+            element.classList.add('btn', 'btn-success', 'btn-lg', 'btn-block')
+        } else {
+            //wrong color
+            element.classList.add('btn', 'btn-danger', 'btn-lg', 'btn-block')
+        }
+        // disable all buttons when one is clicked
+        document.querySelectorAll('#btn').forEach(button => {
+            button.disabled = true
+        })
+    }
 
-    var userScore = {
-        Name: enterName.value,
-        Score: initialScore
-    };
+    function clearStatusClass(element) {
+        //correct color
+        element.classList.remove('btn', 'btn-success', 'btn-lg', 'btn-block')
+        //wrong color
+        element.classList.remove('btn', 'btn-danger', 'btn-lg', 'btn-block')
+    }
 
-    savedHighScores.push(userScore);
+    function showScoreCard() {
+        startCardElement.classList.add('hide')
+        questionContainerElement.classList.add('hide')
+        nameEntryElement.classList.remove('hide')
+        document.getElementById('finalscore').innerText = globalScore
+        document.getElementById('name-submit').addEventListener('click', localStorageCard)
+    }
 
-    var scoresCombined = JSON.stringify (savedHighScores);
-    window.localStorage.setItem("High Scores", scoresCombined);
+    submitButton.addEventListener('click', function (event) {
+        event.preventDefault()
+        var name = document.querySelector('#input-name').value
+        var score = globalScore
+        console.log(document.querySelector('#finalscore').value)
+        if (name === '') {
+            displayMessage('error', 'Name cannot be blank')
+        }
+        localStorage.setItem('username', name)
+        localStorage.setItem('finalscore', score)
+        localStorageCard()
+    })
 
-    highScores();
-};
-// This is where we will capture the high scores 
 
-function highScores() {
-    highScoresListEl.classList.remove('hide');
-    quizEl.classList.add('hide');
-    //This one section will make sure that the high scores are hidden with this command on HTML
+    function localStorageCard() {
+        timerElement.innerText = globalScore
+        nameEntryElement.classList.add('hide')
+        scoreCardElement.classList.remove('hide')
+        var name = localStorage.getItem('username')
+        var score = localStorage.getItem('finalscore')
+        if (name === null || score === null) {
+            return
+        }
+        userNameSpan.textContent = name
+        userScoreSpan.textContent = score
+    }
 
-    var storedScores = localStorage.getItem("High Scores");
-    var storedScores = JSON.parse(storedScores);
-
-    for (i=0; i<storedScores.length; i++) {
-        var initialHighScore = document.createElement("h2");
-        initialHighScore.textContent = "Name: " + storedScores[i].Name + "with" + storedScores[i].Score + "points";
-        highScoresListEl.appendChild(initialHighScore);
+    function removePoints() {
+        globalScore = globalScore - 10
     }
 
 }
-button1.addEventListener("click", option1);
-button2.addEventListener("click", option2);
-button3.addEventListener("click", option3);
-button4.addEventListener("click", option4);
 
-submitScoresEl.addEventListener("click", storeScores);
-highScoresEl.addEventListener("click", highScores);
