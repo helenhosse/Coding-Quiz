@@ -9,22 +9,33 @@
     <script type="text/javascript" src="script.js"></script>
 </head>
 
+<header>
+    <nav class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="">Javascript Quiz!</a>
+        <div class="form-inline justify-content-center" id="navbarNav">
+            <span class="nav-item form-control mr-sm-2">
+                Timer: <span id="timer">75</span>
+            </span>
+        </div>
+    </nav>
+</header>
+
 <body>
 
-    <header>
-        <button id ="btn" id = "highScores">View High Scores</button>
-        <h1 class="page-title">Coding Quiz Challenge</h1>
-        <h2 id="timer"></h2>
-        <p>Try to answer the code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-            <button class="btn" id="start" type="submit">Start Quiz</button>
-    </header>
-
-    <section id="start-page" class="start">
-        <h1>Coding Quiz Challenge</h1>
-        <p>Try to answer the code-related questions within the time limit. Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-        <button id="start">Start Quiz</button>
-    </section>
-
+    <div class="card-group justify-content-center" style="margin-top: 5%;">
+            <div id="start-card" class="">
+                <div class="card text-center" style="width: 24rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">Welcome to the Javascript Quiz!</h5>
+                        <p class="card-text">Try to answer the following code-related questions within the time limit.
+                            Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
+                        <button id="start-btn" type="button" class="btn btn-outline-primary btn-lg btn-block">Start
+                            Quiz</button>
+                        <button id="next-btn" type="button"
+                            class="btn btn-outline-primary btn-lg btn-block hide">Next</button>
+                    </div>
+                </div>
+            </div>
 
 <main class="start" id="quiz-container" class="hide">
     <h1 id="question-display"></h1>

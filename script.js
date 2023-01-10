@@ -14,7 +14,7 @@ const nameEntryElement = document.getElementById('entry-card')
 
 const scoreCardElement = document.getElementById('score')
 
-const startCardElement = document.getElementById('start-card')
+const startCardElement = document.getElementById('start-page')
 
 const userNameSpan = document.getElementById('username')
 
