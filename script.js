@@ -110,7 +110,43 @@ function timedLogic() {
         })
     }
 
- 
+    function clearQuestionContainer() {
+        clearStatusClass(document.body)
+        nextButton.classList.add('hide')
+        while (answerButtonsElement.firstChild) {
+            answerButtonsElement.removeChild(answerButtonsElement.firstChild)
+        }
+    }
+
+    function answerCheck(e) {
+        console.log("answer check running")
+        const selectedButton = e.target
+        const correct = selectedButton.dataset.correct
+        // remove points if answer choice is false
+        if (correct) {
+        } else {
+            removePoints()
+        }
+    }
+
+    function selectAnswer(e) {
+        const selectedButton = e.target
+        const correct = selectedButton.dataset.correct
+        Array.from(answerButtonsElement.children).forEach(button => {
+            setStatusClass(selectedButton, selectedButton.dataset.correct)
+        })
+        // Shows score card when out of questions
+        if (shuffledQuestions.length > currentQuestionIndex + 1) {
+            nextButton.classList.remove('hide')
+        } else {
+            // show score card when out of questions
+            // wait 1 second for timer to catch up with score decriment if the last question is answered wrong
+            setTimeout(function () {
+                clearInterval(globalTimer)
+                showScoreCard()
+            }, 1000);
+        }
+    }
 
     function setStatusClass(element, correct) {
         clearStatusClass(element)
