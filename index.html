@@ -24,23 +24,20 @@
 
 <body>
 
-    <div class="card-group justify-content-center" style="margin-top: 5%;">
-            <div id="start-card" class="btn">
-                <div class="card text-center" style="width: 24rem;">
+    <div class="wrapper">
+            <div id="start-card" class="start">
                     <div class="card-body">
                         <h5 class="card-title">Welcome to the Javascript Quiz!</h5>
                         <p class="card-text">Try to answer the following code-related questions within the time limit.
                             Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-                        <button id="start-btn" type="button" class="btn btn-outline-primary btn-lg btn-block">Start
+                        <button id="start-btn" type="button">Start
                             Quiz</button>
-                        <button id="next-btn" type="button"
-                            class="btn btn-outline-primary btn-lg btn-block hide">Next</button>
+                        <button id="next-btn" type="button">Next</button>
                     </div>
                 </div>
             </div>
         </div>
         <div id="entry-card" class="hide">
-            <div class="card text-center" style="width: 24rem;">
                 <div class="card-body">
                     <h5 class="card-title">All done!</h5>
                     <p class="card-text">Your final score is: <span id="finalscore"></span></p>
@@ -51,7 +48,6 @@
             </div>
         </div>
         <div id="score" class="hide">
-            <div class="card text-center" style="width: 24rem;">
                 <div class="card-body">
                     <h5 class="card-title">Score Board</h5>
                     <p class="card-text">User: <span id="username">Helen</span></p>
