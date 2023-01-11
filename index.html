@@ -6,6 +6,8 @@
     <meta name="viewport" content="width = device-width", initial-scale="1.0">
     <title>Coding Quiz</title>
     <link rel="style.css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Architects+Daughter&display=swap"
+        rel="stylesheet">
     <script type="text/javascript" src="script.js"></script>
 </head>
 
@@ -23,7 +25,7 @@
 <body>
 
     <div class="card-group justify-content-center" style="margin-top: 5%;">
-            <div id="start-card" class="">
+            <div id="start-card" class="btn">
                 <div class="card text-center" style="width: 24rem;">
                     <div class="card-body">
                         <h5 class="card-title">Welcome to the Javascript Quiz!</h5>
@@ -36,33 +38,27 @@
                     </div>
                 </div>
             </div>
-
-<main class="start" id="quiz-container" class="hide">
-    <h1 id="question-display"></h1>
-    <div id="question-container" class="hide"></div>
-    <div id="answer-buttons" class="hide">
-        <button class="answerButton" id="btn-1" type="submit">A1</button>
-        <button class="answerButton" id="btn-2" type="submit">A2</button>
-        <button class="answerButton" id="btn-3" type="submit">A3</button>
-        <button class="answerButton" id="btn-4" type="submit">A4</button>
-        <h2 id = "rightAnswer"></h2>
-    
+        </div>
+        <div id="entry-card" class="hide">
+            <div class="card text-center" style="width: 24rem;">
+                <div class="card-body">
+                    <h5 class="card-title">All done!</h5>
+                    <p class="card-text">Your final score is: <span id="finalscore"></span></p>
+                    <p class="card-text">Please enter your name: </p>
+                    <input id="input-name" placeholder="Name">
+                    <button id="name-submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div id="score" class="hide">
+            <div class="card text-center" style="width: 24rem;">
+                <div class="card-body">
+                    <h5 class="card-title">Score Board</h5>
+                    <p class="card-text">User: <span id="username">Helen</span></p>
+                    <p class="card-text">Score: <span id="highscore">35</span></p>
+                </div>
+            </div>
+        </div>
     </div>
-    <h2 id = "rightAnswer"></h2>
-
-</main>
-
-<div class="hide" id="scores">
-    <h1 id="totalScore"></h1>
-    <form>
-        <input id="enterName" type="text">
-        <button type="submit" class="btn" id="submitScores">Sumbit Initials!</button>
-    </form>
-</div>
-
-<div class="hide" id="highScoresList">
-    <h1>Below is a list of the high scores!</h1>
-</div>
-
 </body>
 </html>
