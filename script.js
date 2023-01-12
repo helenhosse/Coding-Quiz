@@ -79,6 +79,57 @@ function getQuestion() {
 }
 
 
+function questionClick() {
+    if (this.value !== questions[currentQuestionIndex].answer) {
+        time -= 15;
+
+        if (time < 0) {
+            time = 0
+        }
+        timerEl.textContent = time;
+        feedbackEl.textContent = "Incorrect!";
+        feedbackEl.style.color ="red";
+        feedbackEl.style.fontSiize = "400%";
+    }
+
+    feedbackEl.setAttribute ("class", "feedback");
+    setTimeout(function () {
+        feedbackEl.setAttribute("class", "feedback hide");
+    }, 1000);
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex === questions.length) {
+        quizEnd();
+    } else {
+        getQuestion ();
+    }
+};
+
+function quizEnd() {
+    clearInterval (timerId);
+
+    var endScreenEl = document.getElementById("end-screen");
+    endScreenEl.removeAttribute("class");
+
+    var finalScoreEl = document.getElementById("final-score");
+    finalScoreEl.textContent = time;
+
+    questionsEl.setAttribute ("class", "hide");
+}
+
+function clockTick() {
+     time --;
+    timerEl.textContent = time;
+
+    if (time <= 0) {
+        quizEnd();
+    }
+}
+
+    
+
+
 
 function timedLogic() {
 
