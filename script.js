@@ -1,25 +1,10 @@
-const startButton = document.getElementById('start-btn')
-
-const nextButton = document.getElementById('next-btn')
-
-const questionContainerElement = document.getElementById('question-card')
-
-const questionElement = document.getElementById('question')
-
-const answerButtonsElement = document.getElementById('answer-buttons')
-
-const timerElement = document.getElementById('timer')
-
-const nameEntryElement = document.getElementById('entry-card')
-
-const scoreCardElement = document.getElementById('score')
-
-const startCardElement = document.getElementById('start-page')
-
-const userNameSpan = document.getElementById('username')
-
-const userScoreSpan = document.getElementById('highscore')
-
+var questionsEl = document.querySelector("#questions");
+var timerEl = document.querySelector("#time");
+var choicesEl = document.querySelector("choices");
+var submitBtn = document.querySelecytor("submit");
+var startBtn = document.querySelector("start");
+var initialsEl = document.querySelector("initials");
+var feedbackEl = document.querySelector("#feedback")
 var submitButton = document.querySelector('#name-submit');
 
 startButton.addEventListener('click', timedLogic)
@@ -51,6 +36,49 @@ var questions = [
         options: ["1. JavaScript", "2. Terminal/Bash", "3. For Loops", "4. Console.log"],
     }
 ]
+
+var currentQuestionIndex = 0;
+var time = questions.length *15;
+var timerId;
+
+function startQuiz() {
+    var startScreenEl = document.getElementById("start-screen");
+    startScreenEl.setAttribute("class", "hide");
+
+    questionsEl.removeAttribute("class");
+
+    timerId = setInterval(clockTick,1000);
+
+    timerEl.textContent = time;
+
+    getQuestion();
+}
+
+
+
+function getQuestion() {
+    var currentQuestions = questions[currentQuestionIndex];
+
+    var titleEl = document.getElementById("question-title");
+    titleEl.textContent = currentQuestion.title;
+
+    choicesEl.innerHTML = "";
+
+    currentQuestion.choices.forEach (function (choice, i) {
+
+        var choiceNode = document.createElement("button");
+        choiceNode.setAttribute("class", "choice");
+        choiceNode.setAttribute("value", choice);
+
+        choiceNode.textContent = i + 1 + ". " + choice;
+
+        choiceNode.onclick = questionClick;
+
+        choicesEl.appendChild(choiceNode);
+    });
+}
+
+
 
 function timedLogic() {
 
