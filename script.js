@@ -7,6 +7,8 @@ var initialsEl = document.querySelector("#initials");
 var feedbackEl = document.querySelector("#feedback");
 var submitButton = document.querySelector('#name-submit');
 
+
+// questions for the quiz
 var questions = [
     {
         question: "Commonly used data types DO NOT include which of the following:",
@@ -35,33 +37,39 @@ var questions = [
     }
 ]
 
+
+// variables for the timer
 var currentQuestionIndex = 0;
 var time = questions.length * 15;
 var timerId;
 
+
+// this function will start the quiz as a whole
 function startQuiz() {
+    // next couple of lines will hide the start screen, so you can see the questions
     var startScreenEl = document.getElementById("start-screen");
     startScreenEl.setAttribute("class", "hide");
-
     questionsEl.removeAttribute("class");
 
+    // next couple lines will start and show the timer
     timerId = setInterval(clockTick,1000);
-
     timerEl.textContent = time;
 
     getQuestion();
 }
 
 
-
+// will show the current question from the above array questions
 function getQuestion() {
     var currentQuestion = questions[currentQuestionIndex];
 
+    // this will show the actual question
     var titleEl = document.getElementById("question");
     titleEl.textContent = currentQuestion.question;
 
-    optionsEl.innerHTML = "";
 
+// this will make sure that the questions are filtered out and not shown again and show the different potential new answers
+    optionsEl.innerHTML = "";
     currentQuestion.options.forEach(function (options, i) {
 
         var optionsNode = document.createElement("button");
@@ -78,7 +86,9 @@ function getQuestion() {
 
 
 function questionClick() {
-    if (this.value !== questions[currentQuestionIndex].answer) {
+
+    // this is the part that will check with the above questions array to see if the question is correct and show if the answer is correct
+    if (this.value !== questions[currentQuestionIndex].rightAnswer) {
         time -= 15;
 
         if (time < 0) {
@@ -93,14 +103,15 @@ function questionClick() {
         feedbackEl.style.color = "green";
         feedbackEl.style.fontSize = "150%";
     }
-
     feedbackEl.setAttribute ("class", "feedback");
     setTimeout(function () {
         feedbackEl.setAttribute("class", "feedback hide");
     }, 1000);
 
+    // goes to the next question
     currentQuestionIndex++;
 
+    // keeps the time current to end quiz or go to the next question
     if (currentQuestionIndex === questions.length) {
         quizEnd();
     } else {
@@ -108,6 +119,7 @@ function questionClick() {
     }
 }
 
+// will end quiz if the time is cleared, also will hid the questions and go to the final score
 function quizEnd() {
     clearInterval (timerId);
 
@@ -123,7 +135,7 @@ function quizEnd() {
 function clockTick() {
      time--;
     timerEl.textContent = time;
-
+ // needed to put this after the function to check if the quiz taker runs out of time to end the quiz
     if (time <= 0) {
         quizEnd();
     }
