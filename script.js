@@ -1,13 +1,11 @@
 var questionsEl = document.querySelector("#questions");
 var timerEl = document.querySelector("#time");
-var choicesEl = document.querySelector("choices");
-var submitBtn = document.querySelecytor("submit");
-var startBtn = document.querySelector("start");
-var initialsEl = document.querySelector("initials");
-var feedbackEl = document.querySelector("#feedback")
+var optionsEl = document.querySelector("#options");
+var submitBtn = document.querySelector("#submit");
+var startBtn = document.querySelector("#start-screen");
+var initialsEl = document.querySelector("#initials");
+var feedbackEl = document.querySelector("#feedback");
 var submitButton = document.querySelector('#name-submit');
-
-startButton.addEventListener('click', timedLogic)
 
 var questions = [
     {
@@ -38,7 +36,7 @@ var questions = [
 ]
 
 var currentQuestionIndex = 0;
-var time = questions.length *15;
+var time = questions.length * 15;
 var timerId;
 
 function startQuiz() {
@@ -57,24 +55,24 @@ function startQuiz() {
 
 
 function getQuestion() {
-    var currentQuestions = questions[currentQuestionIndex];
+    var currentQuestion = questions[currentQuestionIndex];
 
-    var titleEl = document.getElementById("question-title");
-    titleEl.textContent = currentQuestion.title;
+    var titleEl = document.getElementById("question");
+    titleEl.textContent = currentQuestion.question;
 
-    choicesEl.innerHTML = "";
+    optionsEl.innerHTML = "";
 
-    currentQuestion.choices.forEach (function (choice, i) {
+    currentQuestion.options.forEach(function (options, i) {
 
-        var choiceNode = document.createElement("button");
-        choiceNode.setAttribute("class", "choice");
-        choiceNode.setAttribute("value", choice);
+        var optionsNode = document.createElement("button");
+        optionsNode.setAttribute("class", "options");
+        optionsNode.setAttribute("value", options);
 
-        choiceNode.textContent = i + 1 + ". " + choice;
+        optionsNode.textContent = i + 1 + ". " + options;
 
-        choiceNode.onclick = questionClick;
+        optionsNode.onclick = questionClick;
 
-        choicesEl.appendChild(choiceNode);
+        optionsEl.appendChild(optionsNode);
     });
 }
 
@@ -89,7 +87,11 @@ function questionClick() {
         timerEl.textContent = time;
         feedbackEl.textContent = "Incorrect!";
         feedbackEl.style.color ="red";
-        feedbackEl.style.fontSiize = "400%";
+        feedbackEl.style.fontSize = "150%";
+    } else {
+        feedbackEl.textContent = "Correct!";
+        feedbackEl.style.color = "green";
+        feedbackEl.style.fontSize = "150%";
     }
 
     feedbackEl.setAttribute ("class", "feedback");
@@ -104,7 +106,7 @@ function questionClick() {
     } else {
         getQuestion ();
     }
-};
+}
 
 function quizEnd() {
     clearInterval (timerId);
@@ -119,7 +121,7 @@ function quizEnd() {
 }
 
 function clockTick() {
-     time --;
+     time--;
     timerEl.textContent = time;
 
     if (time <= 0) {
@@ -127,166 +129,62 @@ function clockTick() {
     }
 }
 
-    
 
+// this entire part needs to be redone again, because I have no idea what I'm doing wrong 
+function saveHighScores() {
 
+    var initials = initialsEl.value.trim();
 
-function timedLogic() {
+    if (initials !== "") {
 
-    let globalScore = 75
+        var highscores = 
+        JSON.parse(window.localStorage.getItem("highscores")) || [] ;
 
-    if (globalScore === 0) {
-        clearInterval(globalTimer)
-        showScoreCard()
+        var newScore = {
+            score: time,
+            initials: initials, 
+        };
+
+        highscores.push(newScore);
+        window.localStorage.setItem("highscores", JSON.stringify(highscores));
+
+        // this will take you to the second html page to show the score
+        window.location.href = "./2ndpage.html";
+
     }
-
-    let shuffledQuestions, currentQuestionIndex
-
-    startGame()
-
-    nextButton.addEventListener('click', () => {
-        currentQuestionIndex++
-        setNextQuestion()
-    })
-
-    function startGame() {
-        startButton.classList.add('hide')
-        shuffledQuestions = questions.sort(() => Math.random() - .5)
-        currentQuestionIndex = 0
-        questionContainerElement.classList.remove('hide')
-        setNextQuestion()
-    }
-
-    var globalTimer = setInterval(function () {
-        if (globalScore > 0) {
-            globalScore--
-            timerElement.innerText = globalScore
-        } else {
-            clearInterval(globalTimer)
-            // show score card and hide all other containers if time runs out
-            showScoreCard()
-        }
-    }, 1000)
-
-    function setNextQuestion() {
-        clearQuestionContainer()
-        showQuestion(shuffledQuestions[currentQuestionIndex])
-    }
-
-    function showQuestion(question) {
-        questionElement.innerText = question.question
-        question.answers.forEach(answer => {
-            const button = document.createElement('button')
-            button.setAttribute('id', 'btn')
-            button.innerText = answer.text
-            button.classList.add('btn', 'btn-primary', 'btn-lg', 'btn-block')
-            if (answer.correct) {
-                button.dataset.correct = answer.correct
-            }
-            button.addEventListener('click', selectAnswer)
-            button.addEventListener('click', answerCheck)
-            answerButtonsElement.appendChild(button)
-        })
-    }
-
-    function clearQuestionContainer() {
-        clearStatusClass(document.body)
-        nextButton.classList.add('hide')
-        while (answerButtonsElement.firstChild) {
-            answerButtonsElement.removeChild(answerButtonsElement.firstChild)
-        }
-    }
-
-    function answerCheck(e) {
-        console.log("answer check running")
-        const selectedButton = e.target
-        const correct = selectedButton.dataset.correct
-        // remove points if answer choice is false
-        if (correct) {
-        } else {
-            removePoints()
-        }
-    }
-
-    function selectAnswer(e) {
-        const selectedButton = e.target
-        const correct = selectedButton.dataset.correct
-        Array.from(answerButtonsElement.children).forEach(button => {
-            setStatusClass(selectedButton, selectedButton.dataset.correct)
-        })
-        // Shows score card when out of questions
-        if (shuffledQuestions.length > currentQuestionIndex + 1) {
-            nextButton.classList.remove('hide')
-        } else {
-            // show score card when out of questions
-            // wait 1 second for timer to catch up with score decriment if the last question is answered wrong
-            setTimeout(function () {
-                clearInterval(globalTimer)
-                showScoreCard()
-            }, 1000);
-        }
-    }
-
-    function setStatusClass(element, correct) {
-        clearStatusClass(element)
-        if (correct) {
-            //correct color
-            element.classList.add('btn', 'btn-success', 'btn-lg', 'btn-block')
-        } else {
-            //wrong color
-            element.classList.add('btn', 'btn-danger', 'btn-lg', 'btn-block')
-        }
-        // disable all buttons when one is clicked
-        document.querySelectorAll('#btn').forEach(button => {
-            button.disabled = true
-        })
-    }
-
-    function clearStatusClass(element) {
-        //correct color
-        element.classList.remove('btn', 'btn-success', 'btn-lg', 'btn-block')
-        //wrong color
-        element.classList.remove('btn', 'btn-danger', 'btn-lg', 'btn-block')
-    }
-
-    function showScoreCard() {
-        startCardElement.classList.add('hide')
-        questionContainerElement.classList.add('hide')
-        nameEntryElement.classList.remove('hide')
-        document.getElementById('finalscore').innerText = globalScore
-        document.getElementById('name-submit').addEventListener('click', localStorageCard)
-    }
-
-    submitButton.addEventListener('click', function (event) {
-        event.preventDefault()
-        var name = document.querySelector('#input-name').value
-        var score = globalScore
-        console.log(document.querySelector('#finalscore').value)
-        if (name === '') {
-            displayMessage('error', 'Name cannot be blank')
-        }
-        localStorage.setItem('username', name)
-        localStorage.setItem('finalscore', score)
-        localStorageCard()
-    })
-
-
-    function localStorageCard() {
-        timerElement.innerText = globalScore
-        nameEntryElement.classList.add('hide')
-        scoreCardElement.classList.remove('hide')
-        var name = localStorage.getItem('username')
-        var score = localStorage.getItem('finalscore')
-        if (name === null || score === null) {
-            return
-        }
-        userNameSpan.textContent = name
-        userScoreSpan.textContent = score
-    }
-
-    function removePoints() {
-        globalScore = globalScore - 10
-    }
-
 }
 
+function checkForEnter(event) {
+
+    if (event.key === "Enter") {
+        saveHighScores();
+    }
+}
+
+submitBtn.onclick = saveHighScores;
+startBtn.onclick = startQuiz;
+
+initialsEl.onkeyup = checkForEnter;
+
+
+// I cannot figure out what I am doing wrong here but it will not store the score, will come back to fix but wanted to submit
+
+//supposed to be getting the high scores from the local storage, getting my tutor to assist
+    
+function showHighscores() {
+
+    var highscores = JSON.parse(window.localStorage.getItem("highscores")) || [];
+
+    highscores.forEach(function(score) {
+
+        var liTag = document.createElement("li");
+        liTag.textContent = score.initials + " - " + score.score;
+        
+        var olEl = document.getElementById("highscores");
+        olEl.appendChild(liTag);
+        
+    });
+}
+
+
+showHighscores();

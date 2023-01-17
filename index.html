@@ -5,57 +5,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width = device-width", initial-scale="1.0">
     <title>Coding Quiz</title>
-    <link rel="style.css" href="style.css">
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Architects+Daughter&display=swap"
         rel="stylesheet">
     <script type="text/javascript" src="script.js"></script>
 </head>
 
-<header>
-    <nav class="navbar navbar-dark bg-dark">
-        <a class="navbar-brand" href="">Javascript Quiz!</a>
-        <div class="form-inline justify-content-center" id="navbarNav">
-            <span class="nav-item form-control mr-sm-2">
-                Timer: <span id="timer">75</span>
-            </span>
-        </div>
-    </nav>
-</header>
-
 <body>
+ <div class="scores"><a href="2ndpage.html">View High-Scores!</a> </div>
+ <div class="timer">Time Past: <span id="time"> 0 </span></div>
 
-    <div class="wrapper">
-            <div id="start-card" class="start">
-                    <div class="card-body">
-                        <h5 class="card-title">Welcome to the Javascript Quiz!</h5>
-                        <p class="card-text">Try to answer the following code-related questions within the time limit.
+
+    <div id="wrapper">
+            <div id="start-screen" class="start">
+                        <h1>Welcome to the Javascript Quiz!</h1>
+                        <p>Try to answer the following code-related questions within the time limit.
                             Keep in mind that incorrect answers will penalize your score/time by ten seconds!</p>
-                        <button id="start-btn" type="button">Start
-                            Quiz</button>
-                        <button id="next-btn" type="button">Next</button>
-                    </div>
-                </div>
+                        <button id="start" class="button">Start Quiz</button>
             </div>
         </div>
-        <div id="entry-card" class="hide">
-                <div class="card-body">
-                    <h5 class="card-title">All done!</h5>
-                    <p class="card-text">Your final score is: <span id="finalscore"></span></p>
-                    <p class="card-text">Please enter your name: </p>
-                    <input id="input-name" placeholder="Name">
-                    <button id="name-submit" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
+        <div id="questions" class="hide">
+              <h2 id="question"></h2>
+            <div id="options" class="options"></div>
         </div>
-        <div id="score" class="hide">
-                <div class="card-body">
-                    <h5 class="card-title">Score Board</h5>
-                    <p class="card-text">User: <span id="username">Helen</span></p>
-                    <p class="card-text">Score: <span id="highscore">35</span></p>
-                </div>
-            </div>
+
+        <div id="end-screen" class="hide">
+            <h2>Finished!</h2>
+            <p>Final score: <span id="final-score"></span></p>
+            <p>Enter name: <input type="text" id="initials" max="5" />
+                <button id="submit">Submit Score!</button>
+            </p>
         </div>
         <div id="feedback" class="feedback hide"></div>
     </div>
+    <script type="text/javascript" src="script.js"></script>
 </body>
 </html>
